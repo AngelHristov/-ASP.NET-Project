@@ -5,14 +5,14 @@
     using System.IO;
     using System.Threading.Tasks;
 
-    using AspNetCoreTemplate.Data;
-    using AspNetCoreTemplate.Data.Common;
-    using AspNetCoreTemplate.Data.Common.Repositories;
-    using AspNetCoreTemplate.Data.Models;
-    using AspNetCoreTemplate.Data.Repositories;
-    using AspNetCoreTemplate.Data.Seeding;
-    using AspNetCoreTemplate.Services.Data;
-    using AspNetCoreTemplate.Services.Messaging;
+    using Forum.Data;
+    using Forum.Data.Common;
+    using Forum.Data.Common.Repositories;
+    using Forum.Data.Models;
+    using Forum.Data.Repositories;
+    using Forum.Data.Seeding;
+    using Forum.Services.Data;
+    using Forum.Services.Messaging;
 
     using CommandLine;
 
