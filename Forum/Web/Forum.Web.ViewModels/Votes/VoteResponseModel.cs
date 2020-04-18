@@ -2,6 +2,6 @@
 {
     public class VoteResponseModel
     {
-        public int Count { get; set; }
+        public int votesCount { get; set; }
     }
 }

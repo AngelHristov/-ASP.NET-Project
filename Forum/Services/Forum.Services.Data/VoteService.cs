@@ -39,6 +39,8 @@
                     UserId = userId,
                     Type = isUpVote ? VoteType.UpVote : VoteType.DownVote,
                 };
+
+                await this.votesRepository.AddAsync(vote);
             }
 
             await this.votesRepository.SaveChangesAsync();

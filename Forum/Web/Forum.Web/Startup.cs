@@ -52,6 +52,11 @@
                     {
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     });
+            services.AddAntiforgery(options =>
+            {
+                //options.FormFieldName = "AntiforgeryFieldname";
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);

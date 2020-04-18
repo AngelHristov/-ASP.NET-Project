@@ -29,7 +29,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             await this.votesService.VoteAsync(input.PostId, user.Id, input.IsUpVote);
             var votes = this.votesService.GetVotes(input.PostId);
-            return new VoteResponseModel { Count = votes };
+            return new VoteResponseModel { votesCount = votes };
         }
     }
 }
