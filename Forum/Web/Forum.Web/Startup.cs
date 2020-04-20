@@ -109,17 +109,19 @@
 
             app.UseEndpoints(
                 endpoints =>
-                    {
-                        endpoints.MapControllerRoute(
-                            "categoryWithPage", "f/{name:minlength(3)}/{page}", new { controller = "Categories", action = "ByName" });
-                        endpoints.MapControllerRoute(
-                            "category", "f/{name:minlength(3)}", new { controller = "Categories", action = "ByName" });
-                        endpoints.MapControllerRoute(
-                            "areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute(
-                            "default", "{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapRazorPages();
-                    });
+                {
+                    endpoints.MapControllerRoute(
+                        "forumCategory",
+                        "f/{name:minlength(3)}",
+                        new { controller = "Categories", action = "ByName" });
+                    endpoints.MapControllerRoute(
+                        "areaRoute",
+                        "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllerRoute(
+                        "default",
+                        "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+                });
         }
     }
 }
