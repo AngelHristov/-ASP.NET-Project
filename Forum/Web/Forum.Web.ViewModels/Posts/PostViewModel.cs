@@ -1,7 +1,9 @@
 ﻿namespace Forum.Web.ViewModels.Posts
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+
     using AutoMapper;
     using Forum.Data.Models;
     using Forum.Services.Mapping;
@@ -22,6 +24,8 @@
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public int VotesCount { get; set; }
+
+        public IEnumerable<PostCommentViewModel> Comments { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

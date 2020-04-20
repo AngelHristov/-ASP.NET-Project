@@ -10,13 +10,11 @@
 <script type="text/javascript">
     tinymce.init({
         selector: "textarea",
-        plugins: [
-            "image paste table link code media"
-        ]
+        plugins: ["image paste table link code media"]
     });
 </script>
 
-<form asp-action="Create" method="post" asp-controller="Posts">
+<form asp-action="Create" asp-controller="Posts" method="post">
     <div>
         <label asp-for="Title"></label>
         <input asp-for="Title" class="form-control" />

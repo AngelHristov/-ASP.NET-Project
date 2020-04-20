@@ -43,8 +43,8 @@
                         </span>
                     </div>
                     <div class="px-4 pt-3">
-                        <button type="button" class="btn btn-primary">
-                            <i class="ion ion-md-create"></i>&nbsp; Reply
+                        <button type="button" class="btn btn-primary" onclick="showAddCommentForm()">
+                            <i class="ion ion-md-create"></i>&nbsp; Comment
                         </button>
                     </div>
                 </div>
@@ -53,8 +53,82 @@
     </div>
 </div>
 
+<hr />
+<div>
+    @Model.Comments.Count()
+    @if (@Model.Comments.Count() == 1)
+    {
+        @:Comment
+    }
+    else
+    {
+        @:Comments
+    }
+
+</div>
+<hr />
+   
+@foreach (var comment in this.Model.Comments)
+{
+    <div class="container-fluid mt-100">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="media flex-wrap w-100 align-items-center">
+                            <img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/user-male-icon.png" class="d-block ui-w-40 rounded-circle" alt="" width="50" height="50">
+                            <div class="media-body ml-3">
+                                <a href="javascript:void(0)" data-abc="true">@comment.UserUserName</a>
+                                <div class="text-muted small">Post created on @comment.CreatedOn</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @Html.Raw(comment.SanitizedContent)
+                    </div>
+                    <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
+                        
+                        <div class="px-4 pt-3">
+                            <button type="button" class="btn btn-secondary" onclick="showAddCommentForm()">
+                                <i class="ion ion-md-create"></i>&nbsp; Reply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: ["image paste table link code media"]
+    });
+</script>
+
+<div id="AddCommentForm" style="display: none">
+    <form asp-controller="Comments" asp-action="Create" method="post">
+        <input type="hidden" name="PostId" value="@this.Model.Id" />
+
+        <div>
+            <label for="Content"></label>
+            <textarea name="Content" id="Content" class="form-control"></textarea>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" value="Add" />
+        </div>
+    </form>
+</div>
+
 @section Scripts {
     <script>
+        function showAddCommentForm() {
+            $("#AddCommentForm").toggle();
+        }
+
         function sendVote(postId, isUpVote) {
             var json = { postId: postId, isUpVote: isUpVote };
             var token = $("#votesForm input[name=__RequestVerificationToken]").val();
@@ -64,11 +138,13 @@
                 data: JSON.stringify(json),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                headers: { "X-CSRF-TOKEN" :  token },
+                headers: { "X-CSRF-TOKEN": token },
                 success: function (data) {
                     $("#votesCount").html(data.votesCount);
                 }
             });
         }
     </script>
+
+
 }
