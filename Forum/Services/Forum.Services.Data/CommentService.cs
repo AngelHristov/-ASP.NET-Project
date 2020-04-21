@@ -1,6 +1,8 @@
 ﻿namespace Forum.Services.Data
 {
+    using System.Linq;
     using System.Threading.Tasks;
+
     using Forum.Data.Common.Repositories;
     using Forum.Data.Models;
 
@@ -25,6 +27,17 @@
 
             await this.commentsRepo.AddAsync(comment);
             await this.commentsRepo.SaveChangesAsync();
+        }
+
+        public bool IsInSamePost(int commentId, int postId)
+        {
+            var commentPostId = this.commentsRepo
+                .All()
+                .Where(x => x.Id == commentId)
+                .Select(p => p.PostId)
+                .FirstOrDefault();
+
+            return commentPostId == postId;
         }
     }
 }

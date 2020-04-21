@@ -24,9 +24,19 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommentInputModel input)
         {
+            var parentId = input.ParentId == 0 ? (int?)null : input.ParentId;
+
+            if (parentId.HasValue)
+            {
+                if (!this.commentService.IsInSamePost(parentId.Value, input.PostId))
+                {
+                    return this.BadRequest();
+                }
+            }
+
             var userId = this.userManager.GetUserId(this.User);
 
-            await this.commentService.Create(input.PostId, userId, input.Content);
+            await this.commentService.Create(input.PostId, userId, input.Content, parentId);
 
             return this.RedirectToAction("ById", "Posts", new { id = input.PostId });
         }
