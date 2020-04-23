@@ -33,9 +33,13 @@
                             </div>
                             <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
                                 <div class="px-4 pt-3">
-                                    <button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)">
-                                        <i class="ion ion-md-create"></i>&nbsp; Reply
-                                    </button>
+                                    @if (this.User.Identity.IsAuthenticated)
+                                    {
+                                        <button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)">
+                                            <i class="ion ion-md-create"></i>&nbsp; Reply
+                                        </button>
+                                    }
+
                                 </div>
                             </div>
                             @{ DisplayComments(comment.Id); }
@@ -86,9 +90,12 @@
 
                     </div>
                     <div class="px-4 pt-3">
-                        <button type="button" class="btn btn-primary" onclick="showAddCommentForm(0)">
-                            <i class="ion ion-md-create"></i>&nbsp; Comment
-                        </button>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <button type="button" class="btn btn-primary" onclick="showAddCommentForm(0)">
+                                <i class="ion ion-md-create"></i>&nbsp; Comment
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
@@ -141,6 +148,10 @@
         function showAddCommentForm(parentId) {
             $("#AddCommentForm").show();
             $("#AddCommentForm input[name='ParentId']").val(parentId);
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#AddCommentForm").offset().top
+            }, 700);
+
         }
 
         function sendVote(postId, isUpVote) {
