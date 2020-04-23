@@ -1,9 +1,12 @@
 ﻿namespace Forum.Web.Controllers
 {
+    using System;
     using System.Diagnostics;
+    using System.Net.Mail;
 
     using Forum.Services.Data;
     using Forum.Web.ViewModels;
+    using Forum.Web.ViewModels.ContactUs;
     using Forum.Web.ViewModels.Home;
 
     using Microsoft.AspNetCore.Mvc;
@@ -30,6 +33,44 @@
 
         public IActionResult Privacy()
         {
+            return this.View();
+        }
+
+        public IActionResult ContactUs(ContactViewModel vm)
+        {
+            if (this.ModelState.IsValid)
+            {
+                try
+                {
+                    MailMessage msz = new MailMessage();
+                    msz.From = new MailAddress(vm.Email); // Email which you are getting from contact us page
+
+                    msz.To.Add("emailaddrss@gmail.com"); // Where mail will be sent
+                    msz.Subject = vm.Subject;
+                    msz.Body = vm.Message;
+                    SmtpClient smtp = new SmtpClient();
+
+                    smtp.Host = "smtp.gmail.com";
+
+                    smtp.Port = 587;
+
+                    smtp.Credentials = new System.Net.NetworkCredential(
+                    "youremailid@gmail.com", "password");
+
+                    smtp.EnableSsl = true;
+
+                    smtp.Send(msz);
+
+                    this.ModelState.Clear();
+                    this.ViewBag.Message = "Thank you for Contacting us ";
+                }
+                catch (Exception ex)
+                {
+                    this.ModelState.Clear();
+                    this.ViewBag.Message = $" Sorry we are facing Problem here {ex.Message}";
+                }
+            }
+
             return this.View();
         }
 
