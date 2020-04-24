@@ -1,5 +1,7 @@
-﻿namespace Forum.Web.Tests
+﻿namespace ForumSystem.Web.Tests
 {
+    using Forum.Web;
+    using Forum.Web.Tests;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
     using OpenQA.Selenium.Remote;
@@ -17,11 +19,12 @@
             this.server = server;
             server.CreateClient();
             var opts = new ChromeOptions();
-            opts.AddArguments("--headless", "--ignore-certificate-errors");
+            opts.AddArgument("--headless");
+            opts.AddArgument("no-sandbox");
             this.browser = new RemoteWebDriver(opts);
         }
 
-        [Fact(Skip = "Example test. Disabled for CI.")]
+        [Fact]
         public void FooterOfThePageContainsPrivacyLink()
         {
             this.browser.Navigate().GoToUrl(this.server.RootUri);
